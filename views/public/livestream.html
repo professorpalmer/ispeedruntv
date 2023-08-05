@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iSpeedrun.TV</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.socket.io/4.3.1/socket.io.min.js"></script>
+<style>
+header {
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+.video-container {
+  width: 100%;
+  position: relative;
+  margin-top: 20px;
+}
+
+.discord-chat {
+  display: flex;
+  width: 600px;
+  height: 750px;
+  margin-top: 20px;
+}
+
+#video-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 24px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+nav ul {
+  display: none;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 1000px) {
+  .hamburger {
+    display: flex;
+  }
+
+  nav ul {
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: left;
+  }
+
+  nav ul li {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .main-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .video-container {
+    width: 750px;
+    height: auto;
+  }
+
+  .discord-chat {
+    width: 80%; /* Change the width to 90% of the screen width */
+    height: 500px; /* Adjust the height to a smaller value */
+    margin-top: 20px;
+    margin-right: 20px;
+  }
+}
+
+</style>
+  </head>
+  <body>
+    <header>
+      <h1>iSpeedrun.TV</h1>
+      <nav>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="livestream.html">Live</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li id="login-link"><a href="login.html">Login</a></li>
+          <li id="account-link"><a href="account.html">Account</a></li>
+          <li><a href="community.html">Community</a></li>
+        </ul>
+      </nav>
+    </header>
+<main class="main-container">
+  <div class="video-container">
+    <iframe id="video-iframe" src="https://player.castr.com/live_e17ce1f0cb5511ed9885c30d14b66c8c" frameborder="0" scrolling="no" allowfullscreen></iframe>
+  </div>
+  <div class="discord-chat">
+    <widgetbot
+      server="448347879359250432"
+      channel="1128219809130221639"
+      width="100%"
+      height="100%"
+    ></widgetbot>
+  </div>
+</main>
+    <script src="https://cdn.jsdelivr.net/npm/@widgetbot/html-embed"></script>
+    <script>
+const socket = io();
+console.log('WebSocket connection established');
+
+function resizeVideoContainer() {
+  const videoContainer = document.querySelector(".video-container");
+  const iframe = document.getElementById("video-iframe");
+  const aspectRatio = 16 / 9; // Adjust the aspect ratio to match the desired one (16:9 in this case)
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+
+  if (screenWidth / screenHeight > aspectRatio) {
+    videoContainer.style.width = `${screenHeight * aspectRatio}px`;
+    videoContainer.style.height = `${screenHeight}px`;
+  } else {
+    videoContainer.style.width = `${screenWidth}px`;
+    videoContainer.style.height = `${screenWidth / aspectRatio}px`;
+  }
+
+  iframe.style.width = '100%';
+  iframe.style.height = '100%';
+}
+
+window.addEventListener("resize", resizeVideoContainer);
+resizeVideoContainer();
+
+function checkLoggedIn() {
+  const isLoggedIn = localStorage.getItem("loggedIn");
+  if (isLoggedIn === "true") {
+    document.getElementById("login-link").style.display = "none";
+    document.getElementById("account-link").style.display = "block";
+  }
+}
+
+checkLoggedIn();
+
+document.querySelector(".hamburger").addEventListener("click", () => {
+  const navMenu = document.querySelector("nav ul");
+  navMenu.style.display = navMenu.style.display === "flex" ? "none" : "flex";
+});
+
+function setInitialMenuState() {
+  const navMenu = document.querySelector("nav ul");
+  if (window.innerWidth <= 900) {
+    navMenu.style.display = "none";
+  } else {
+    navMenu.style.display = "flex";
+  }
+}
+
+setInitialMenuState();
+window.addEventListener("resize", setInitialMenuState);
+
+document.getElementById('video-iframe').addEventListener('dblclick', toggleFullscreen);
+resizeVideoContainer();
+
+</script>
+</body>
+</html>

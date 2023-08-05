@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iSpeedrun.TV - About</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+header {
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
+}
+
+  body {
+    background-color: #333;
+    background-image: linear-gradient(45deg, #292D36, #2B2B2B, #404040, #CCCCCC, #FFFFFF);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+      .about-container {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 5px;
+        width: 90%;
+        margin: 20px auto;
+      }
+      .about-container h2 {
+        font-size: 1.5em;
+      }
+      .about-container p {
+        font-size: 1.2em;
+        line-height: 1.5;
+        color: #333;
+      }
+
+        p {
+          text-align: center;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-direction: column;
+          margin: 20px;
+        }
+
+    nav ul {
+      display: flex;
+      justify-content: space-around;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 24px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .hamburger {
+    display: flex;
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: left;
+  }
+
+  nav ul li {
+    width: 100%;
+    padding: 10px 0;
+  }
+}
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>iSpeedrun.TV</h1>
+      <nav>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="livestream.html">Live</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li id="login-link"><a href="login.html">Login</a></li>
+          <li id="account-link" style="display: none;"><a href="account.html">Account</a></li>
+          <li><a href="community.html">Community</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="main-container">
+      <div class="about-container">
+        <h2>About iSpeedrun.TV :</h2>
+        <p> Update April 8th, 2023 : Account creation is now up and running. Discord chat integration is now accessible!
+        </p>
+        <p>
+        iSpeedrun.TV is a project created by myself, Cary Palmer, utilizing ChatGPT to accelerate the process of what I could do alone. Content is all based on my own sourced ideas, prompts, etc.
+        </p>
+        <p>
+        I created my own site where I can share what I want, when I want, and see what I can teach myself in the process.
+        </p>
+        <p>
+        This site is a work in progress and will be for a while. Expect to see it go up, down, and change a lot. If you're interested in contributing to the development of the site, feel free to reach out!</p>
+        </div>
+        </main>
+      <script>
+function checkLoggedIn() {
+  const isLoggedIn = localStorage.getItem("loggedIn");
+  if (isLoggedIn === "true") {
+    document.getElementById("login-link").style.display = "none";
+    document.getElementById("account-link").style.display = "block";
+  }
+}
+
+function setInitialMenuState() {
+  const navMenu = document.querySelector("nav ul");
+  if (window.innerWidth <= 900) {
+    navMenu.style.display = "none";
+  } else {
+    navMenu.style.display = "flex";
+  }
+}
+
+document.querySelector(".hamburger").addEventListener("click", () => {
+  const navMenu = document.querySelector("nav ul");
+  navMenu.style.display = navMenu.style.display === "flex" ? "none" : "flex";
+});
+
+setInitialMenuState();
+window.addEventListener("resize", setInitialMenuState);
+checkLoggedIn();
+
+      </script>
+   </body>
+</html>

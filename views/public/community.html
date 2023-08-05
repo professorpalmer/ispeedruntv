@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iSpeedrun.TV - Community Resources</title>
+    <link rel="stylesheet" href="styles.css">
+<style>
+header {
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+}
+
+  body {
+    background-color: #333;
+    background-image: linear-gradient(45deg, #292D36, #2B2B2B, #404040, #CCCCCC, #FFFFFF);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+  }
+
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+.community-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-radius: 5px;
+  width: 100%;
+  margin: 20px auto;
+}
+
+.community-container h2 {
+  font-size: 1.5em;
+}
+
+.community-container p, .community-container li {
+  font-size: 1.2em;
+  line-height: 1.5;
+  color: #333;
+  text-align: justify; /* Added this line */
+}
+
+p {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin: 20px;
+  left : 25px;
+}
+
+/* Add styles for the hamburger menu and its display */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 24px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul.show {
+  display: block; /* Change this to block */
+}
+
+@media (max-width: 900px) {
+  .hamburger {
+    display: flex;
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: left;
+  }
+
+  nav ul li {
+    width: 100%;
+    padding: 10px 0;
+  }
+}
+
+</style>
+  </head>
+  <body>
+    <header>
+      <h1>iSpeedrun.TV</h1>
+      <nav>
+       <div class="nav-container">
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+	<ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="livestream.html">Live</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li id="login-link"><a href="login.html">Login</a></li>
+          <li id="account-link" style="display: none;"><a href="account.html">Account</a></li>
+          <li><a href="community.html">Community</a></li>
+        </ul>
+      </nav>
+     </div>
+    </header>
+    <main class="main-container">
+        <div class="community-container">
+        <h2>Need an RTMP for your speedrun event? Dedicated place to host a race?</h2>
+        <ul>
+        <p> iSpeedrun.TV offers free resources for the community to use :</p>
+          <li style="margin-left: 10px;">1-1.5s of latency</li>
+          <li style="margin-left: 10px;">4k quality</li>
+          <li style="margin-left: 10px;">Uncapped viewers</li>
+          <li style="margin-left: 10px;">Injectable video ads for your events, sponsors, etc</li>
+          <li style="margin-left: 10px;">Automatically stream up to 10 multi stream destinations when clicking 'Live' (Youtube, FB, Twitch, Kick, etc simultaneously)</li>
+          <li style="margin-left: 10px;">Fully integrated Discord chat | Handle emotes/moderation client side</li>
+          <li style="margin-left: 10px;">Webpage built to accomodate race screens and chat.</li>
+        <p> Contact me to schedule the site's resources for your needed days!</p>
+        </ul>
+        </div>
+        </main>
+        <script>
+        function checkLoggedIn() {
+        const isLoggedIn = localStorage.getItem("loggedIn");
+        if (isLoggedIn === "true") {
+          document.getElementById("login-link").style.display = "none";
+          document.getElementById("account-link").style.display = "block";
+        }
+        }
+
+        checkLoggedIn();
+
+document.querySelector(".hamburger").addEventListener("click", () => {
+  const navMenu = document.querySelector("nav ul");
+  navMenu.classList.toggle("show");
+  updateNavDisplay();
+});
+
+window.addEventListener("resize", updateNavDisplay);
+
+function updateNavDisplay() {
+  const navMenu = document.querySelector("nav ul");
+  if (window.innerWidth <= 900) {
+    navMenu.style.display = navMenu.classList.contains("show") ? "flex" : "none";
+  } else {
+    navMenu.style.display = "flex";
+  }
+}
+
+	updateNavDisplay();
+        </script>
+        </body>
+       </html>

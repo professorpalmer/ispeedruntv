@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>iSpeedrun.TV</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <style>
+      header {
+        color: #fff;
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 2;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.5);
+      }
+
+        .label-container, .label-container-stocks {
+          display: flex;
+        }
+
+
+      body {
+        background-color: #333;
+        background-image: linear-gradient(45deg, #292D36, #2B2B2B, #404040, #CCCCCC, #FFFFFF);
+        background-size: 400% 400%;
+        animation: gradient 200s ease infinite;
+      }
+
+       nav ul.show {
+        display: flex;
+      }
+
+       .hidden {
+         display: none;
+        }
+
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .video-carousel,
+      .video-carousel-stocks {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+        width: 80%; /* full width of the grid cell */
+        height: 400px; /* set a fixed height */
+        margin: 0; /* remove the margin */
+      }
+
+      .video-carousel iframe,
+      .video-carousel-stocks iframe {
+        position: absolute;
+        width: 90%;
+        height: 100%;
+        border: none;
+        z-index: 1;
+        transition: all 0.5s ease;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .video-carousel iframe.prev,
+      .video-carousel iframe.next,
+      .video-carousel-stocks iframe.prev,
+      .video-carousel-stocks iframe.next {
+        width: 50%;
+        height: 70%;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .video-carousel iframe.prev,
+      .video-carousel-stocks iframe.prev {
+        left: 0;
+      }
+
+      .video-carousel iframe.next,
+      .video-carousel-stocks iframe.next {
+        right: 0;
+      }
+
+      .label-container,
+      .label-container-stocks {
+        position: absolute;
+        top: 33.3%;
+        left: calc(42.5% + .5%);
+        transform: translateY(-50%);
+        width: 300px;
+        height: 100px;
+        background-color: rgba(255, 255, 255, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+      }
+
+      .label-text {
+        font-family: 'Arial', sans-serif;
+        font-size: 2.5em;
+        font-weight: bold;
+        color: transparent;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        text-transform: uppercase;
+        background: linear-gradient(45deg, #292D36, #2B2B2B, #404040, #CCCCCC, #FFFFFF);
+        background-size: 200% auto; /* Added for a smoother gradient transition */
+        -webkit-background-clip: text;
+        background-clip: text;
+        padding: 20px; /* Added for more space */
+      }
+
+      .label-container-stocks {
+        top: 70%;
+      }
+
+      main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 20px;
+        padding: 20px;
+        box-sizing: border-box;
+        margin-top: 100px; /* Adjust to offset the header's height */
+      }
+
+       .blog-container {
+        height: 90%; /* Let the content define the height */
+        width: 75%; /* Take the full width of the grid cell */
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        margin-left: 200px;
+        padding: 20px;
+        overflow: auto; /* for scrolling if content overflows */
+        grid-column: 2; /* occupy the 2nd column */
+        grid-row: 1 / 4; /* occupy all rows */
+      }
+
+      .blog-post {
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+      }
+
+      .blog-post:last-child {
+        border-bottom: none;
+      }
+
+      .blog-post h2 {
+        font-size: 2em;
+        margin-bottom: 10px;
+      }
+
+      .blog-post p {
+        font-size: 1em;
+        line-height: 1.6;
+      }
+
+      .blog-post time {
+        display: block;
+        font-size: 0.8em;
+        color: #777;
+        margin-bottom: 10px;
+      }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 24px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 2px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 1200px) {
+  .hamburger {
+    display: flex;
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    text-align: left;
+  }
+
+  nav ul li {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  .label-container, .label-container-stocks {
+    display: none;
+  }
+
+ main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+
+  /* Adjust the width and margin of the blog-container */
+  .blog-container {
+    width: 95%;
+    margin: 20px auto;
+    grid-column: 1; /* occupy the 1st column */
+    grid-row: auto; /* occupy the next available row */
+  }
+
+  /* Adjust the width of the video-carousel */
+  .video-carousel,
+  .video-carousel-stocks {
+    width: 95%;
+  }
+}
+
+      </style>
+    </head>
+    <body>
+      <header>
+        <h1>iSpeedrun.TV</h1>
+        <nav>
+          <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="livestream.html">Live</a></li>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="contact.html">Contact</a></li>
+            <li id="login-link"><a href="login.html">Login</a></li>
+            <li id="account-link" style="display: none;"><a href="account.html">Account</a></li>
+            <li><a href="community.html">Community</a></li>
+          </ul>
+        </nav>
+      </header>
+    <main>
+      <div class="video-carousel">
+        <iframe class="prev" src="https://www.youtube.com/embed/3zUJkikZrsY"></iframe>
+        <iframe src="https://www.youtube.com/embed/OcQ2OtR9gIY"></iframe>
+        <iframe class="next" src="https://www.youtube.com/embed/M5NCKqRmGbQ"></iframe>
+      </div>
+      <div class="label-container">
+      <div class="label-text">Runs</div>
+    </div>
+    <div class="video-carousel-stocks">
+      <iframe class="prev" src="https://www.youtube.com/embed/JrmrT4W5Drw"></iframe>
+      <iframe src="https://www.youtube.com/embed/fKMG5ByK_5M"></iframe>
+      <iframe class="next" src="https://www.youtube.com/embed/MsbKjOj9TDg"></iframe>
+    </div>
+    <div class="label-container-stocks">
+      <div class="label-text">Marathons</div>
+    </div>
+    <div class="blog-container">
+      <div class="blog-post">
+        <h2>iSpeedrun.tv Soft Launch</h2>
+        <time datetime="2023-01-01">May 14th, 2023</time>
+        <p>The site is now staying up and will actively feature my livestream (currently cats). I might make adjustments but the site is now officialy 'online' and will remain that way!</p>
+      </div>
+      <div class="blog-post">
+        <h2>RPGLB 2023</h2>
+        <time datetime="2023-01-01">May 14th, 2023</time>
+        <p>Blue Dragon has been accepted into RPG Limit Break 2023 in Salt Lake City, Utah! July 17th, 2023 you can find Blue Dragon live at Twitch.tv/RPGLimitBreak</p>
+      </div>
+      <!-- More blog posts... -->
+      <div class="blog-post">
+        <h2>Community Resources</h2>
+        <time datetime="2023-01-01">May 14th, 2023</time>
+        <p>Make sure to check out the community tab if you are an event host or restreamer! If you have any suggestions for site improvements or want to contact me, the Contact page will connect you with my email!</p>
+      </div>
+    </div>
+  </main>
+  <script>
+        // Wait for the DOM to fully load before running the script
+        document.addEventListener('DOMContentLoaded', function() {
+          const carousels = document.querySelectorAll('.video-carousel, .video-carousel-stocks');
+
+          carousels.forEach(carousel => {
+            const iframes = Array.from(carousel.querySelectorAll('iframe'));
+            let currentIndex = iframes.findIndex(iframe => !iframe.classList.contains('prev') && !iframe.classList.contains('next'));
+
+            carousel.addEventListener('click', function() {
+              // Remove all classes
+              iframes.forEach(iframe => {
+                iframe.classList.remove('prev', 'next');
+              });
+
+              // Increment current index and loop back to start if necessary
+              currentIndex = (currentIndex + 1) % iframes.length;
+
+              // Assign new classes
+              iframes[currentIndex].classList.add('prev');
+              iframes[(currentIndex + 1) % iframes.length].classList.add('next');
+              iframes[(currentIndex + 2) % iframes.length].classList.remove('prev', 'next');
+            });
+          });
+        });
+
+        function setInitialMenuState() {
+          const navMenu = document.querySelector("nav ul");
+          if (window.innerWidth <= 900) {
+            navMenu.classList.add('hidden');
+          } else {
+            navMenu.classList.remove('hidden');
+          }
+        }
+
+        document.querySelector(".hamburger").addEventListener("click", () => {
+          const navMenu = document.querySelector("nav ul");
+          navMenu.classList.toggle('hidden');
+        });
+
+        window.addEventListener("resize", setInitialMenuState);
+
+        setInitialMenuState();
+        checkLoggedIn();
+
+
+        </script>
+  </body>
+</html>

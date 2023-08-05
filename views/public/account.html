@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Account</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #222;
+            color: #fff;
+            padding: 10px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav li {
+            margin-right: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            color: #ff0000;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 100px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 30px 40px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+
+        .logout-btn {
+            background-color: #ff0000;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .logout-btn:hover {
+            background-color: #cc0000;
+        }
+
+        /* Styles for the hamburger menu and its display */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 24px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background-color: #fff;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 900px) {
+            .hamburger {
+                display: flex;
+            }
+
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                background-color: rgba(0, 0, 0, 0.8);
+                text-align: left;
+            }
+
+            nav ul li {
+                width: 100%;
+                padding: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>iSpeedrun.TV</h1>
+        <div class="nav-container">
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="livestream.html">Live</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li id="login-link"><a href="login.html">Login</a></li>
+                    <li id="account-link" style="display: none;"><a href="account.html">Account</a></li>
+                    <li><a href="community.html">Community</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="container">
+            <h1>Logout</h1>
+            <form id="account-form">
+            </form>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </main>
+    <script>
+        document.querySelector(".hamburger").addEventListener("click", () => {
+            const navMenu = document.querySelector("nav ul");
+            navMenu.classList.toggle("show");
+            updateNavDisplay();
+        });
+
+        window.addEventListener("resize", updateNavDisplay);
+
+        function updateNavDisplay() {
+            const navMenu = document.querySelector("nav ul");
+            if (window.innerWidth <= 900) {
+                navMenu.style.display = navMenu.classList.contains("show") ? "flex" : "none";
+            } else {
+                navMenu.style.display = "flex";
+            }
+        }
+
+        function checkLoggedIn() {
+            const isLoggedIn = localStorage.getItem("loggedIn");
+            if (isLoggedIn === "true") {
+                document.getElementById("login-link").style.display = "none";
+                document.getElementById("account-link").style.display = "block";
+            }
+        }
+
+        function logout() {
+            fetch('/logout', { method: 'POST' })
+                .then(() => {
+                    localStorage.removeItem('loggedIn');
+                    window.location.href = 'login.html';
+                })
+                .catch((err) => {
+                    console.error('Error logging out:', err);
+                });
+        }
+
+        checkLoggedIn();
+        updateNavDisplay();
+    </script>
+</body>
+</html>
